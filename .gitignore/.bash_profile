@@ -12,5 +12,5 @@ export HISTTIMEFORMAT='%F %T %t'
 
 export ORCA_VERSION=1.0.1
 
-
+source ~/.bash_aliases
 source ~/.bashrc
