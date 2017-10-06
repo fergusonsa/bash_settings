@@ -31,7 +31,7 @@ export TTY_NAME=`temp=$(tty) ; echo ${temp:5}`
 
 # Function for saving history to separate log file every 15 minutes
 logBashHistory() {
-  history 2 | sed -e "s/^./$TTY_NAME &/" >> ~/reports/bash_history/bash_history_$(date +"%Y%m%d").txt
+  history 1 | sed -e "s/^./$TTY_NAME &/" >> ~/reports/bash_history/bash_history-$(date +"%Y-%m-%d").txt
 }
 
 # Ensure that history is appended to its file, not overwritten 
