@@ -2,14 +2,19 @@
 pathadd() {
     newelement=${1%/}
     
-    if [ -d "$1" ] && ! echo $PATH | grep -E -q "(^|:)$newelement($|:)" ; then
-        if [ "$2" = "after" ] ; then
-            PATH="$PATH:$newelement"
+    if [ -d "$1" ]; then
+    
+        if ! echo $PATH | grep -E -q "(^|:)$newelement($|:)" ; then
+            if [ "$2" = "after" ] ; then
+                PATH="$PATH:$newelement"
+            else
+                PATH="$newelement:$PATH"
+            fi
         else
-            PATH="$newelement:$PATH"
+            echo "$newelement already in PATH!"
         fi
     else
-        echo "$newelement already in PATH!"
+        echo "$newelement is not a valid directory!"
     fi
 }
 
@@ -31,7 +36,8 @@ export TTY_NAME=`temp=$(tty) ; echo ${temp:5}`
 
 # Function for saving history to separate log file every 15 minutes
 logBashHistory() {
-  history 1 | sed -e "s/^./$TTY_NAME &/" >> ~/reports/bash_history/bash_history-$(date +"%Y-%m-%d").txt
+#   history 1 | sed -e "s/^./$TTY_NAME &/" >> ~/reports/bash_history/bash_history-$(date +"%Y-%m-%d").txt
+  echo $TTY_NAME \"`pwd`\" `history 1` >> ~/reports/bash_history/bash_history-$(date +"%Y-%m-%d").txt
 }
 
 # Ensure that history is appended to its file, not overwritten 
@@ -49,5 +55,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $DIR/.bash_aliases
 
 
-
-export PROMPT_COMMAND="logBashHistory; $PROMPT_COMMAND"
+if ! echo $PROMPT_COMMAND | grep -E -q "(;)logBashHistory(;)" ; then
+    export PROMPT_COMMAND="logBashHistory; $PROMPT_COMMAND"
+fi
