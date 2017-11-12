@@ -33,6 +33,8 @@ export PATH
 
 export TTY_NAME=`temp=$(tty) ; echo ${temp:5}`
 
+# Ensure that the ~/reports/bash_history directory exists
+mkdir -p "${HOME}/reports/bash_history"
 
 # Function for saving history to separate log file every 15 minutes
 logBashHistory() {
